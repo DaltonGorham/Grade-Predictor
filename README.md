@@ -1,1 +1,1 @@
-# Grade-Predictor
+# This is the module 3 lab Grade Predictor Assignment. 
