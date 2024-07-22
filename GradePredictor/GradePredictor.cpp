@@ -35,7 +35,7 @@ vector<Category> GradePredictor::readFromFile(const string filename){
     int secondComma = line.find(',', firstComma + 1);
     int thirdComma = line.find(',', secondComma + 1);
 
-    string name = line.substr(0,firstComma);
+    string name = line.substr(0, firstComma);
 
     double pointsPossible = stod(line.substr(firstComma + 1, secondComma - firstComma - 1 ));
 
@@ -74,5 +74,17 @@ void GradePredictor::printCategory(const vector<Category> &categories){
     cout << "Category Weight: " << c.getWeight() << endl;
     cout << "Assignments Completed: " << c.getTotalCompleted() << endl;
     cout << "Current Grade: " << c.calculateCurrentGrade() << "%" << endl;
+
+      cout << endl << "Assignments: " << endl ;
+
+    for (Assignment assignment : c.getAssignments()){
+      cout << assignment.getName() << endl;
+      cout << "Points Possible: " << assignment.getPointsPossible() << endl;
+      cout << "Points Earned: " << assignment.getPointsEarned() << endl;
+      if (assignment.getCompleted()) cout << "Grade: " << assignment.getPointsEarned() / assignment.getPointsPossible() * 100.0 << "%" << endl; 
+      else cout << "Grade: " << "N/a" << endl;
+      cout << "Completed: " << (assignment.getCompleted() ? "Yes" : "No") << endl << endl; 
+    }
+    cout << "---------------------" << endl << endl;
   }
 }
