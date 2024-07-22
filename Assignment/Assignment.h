@@ -8,21 +8,21 @@ private:
   string name;
   double pointsPossible;
   double pointsEarned;
-  bool isEdited;
-  bool isCompleted;
+  bool isEdited = false;
+  bool isCompleted = false;
 public:
+  Assignment();
   Assignment(string name, double pointsEarn, double pointsPoss);
   double getPointsPossible()const;
   double getPointsEarned()const;
+  void setName(const string n);
   void setPointsEarned(double points);
-  void markCompleted(bool isComplete);
-  void markEdited(bool isEdit );
+  void setPointsPossible(double points);
+  void markCompleted(bool complete);
+  bool getCompleted()const;
+  void markEdited();
+  string getName()const;
 };
-
-
-
-
-
 
 
 #endif

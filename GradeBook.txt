@@ -1,0 +1,4 @@
+Category: Homework,30
+Hello,100,80,1
+Bro,100,60,0
+Code,200,100,1
