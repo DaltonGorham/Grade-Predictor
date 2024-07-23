@@ -7,8 +7,8 @@ Assignment::Assignment()
 
 }
 
-Assignment::Assignment(string n, double pointsEarn, double pointsPoss)
-: name(n), pointsEarned(pointsEarn), pointsPossible(pointsPoss), isCompleted(false), isEdited(false)
+Assignment::Assignment(string n, double pointsEarn, double pointsPoss, int num)
+: name(n), pointsEarned(pointsEarn), pointsPossible(pointsPoss), assignmentNumber(num),isCompleted(false), isEdited(false)
 {
 
 }
@@ -49,4 +49,12 @@ bool Assignment::getCompleted()const{
 
 void Assignment::markEdited(){
   isEdited = true;
+}
+
+void Assignment::setAssignmentNumber(int num){
+  assignmentNumber = num;
+}
+
+int Assignment::getAssignmentNumber()const{
+  return assignmentNumber;
 }

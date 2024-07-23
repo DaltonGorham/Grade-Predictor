@@ -8,20 +8,24 @@ private:
   string name;
   double pointsPossible;
   double pointsEarned;
+  int assignmentNumber;
   bool isEdited = false;
   bool isCompleted = false;
 public:
   Assignment();
-  Assignment(string name, double pointsEarn, double pointsPoss);
+  Assignment(string name, double pointsEarn, double pointsPoss, int num);
   double getPointsPossible()const;
   double getPointsEarned()const;
   void setName(const string n);
+  void setAssignmentNumber(int num);
   void setPointsEarned(double points);
   void setPointsPossible(double points);
   void markCompleted(bool complete);
   bool getCompleted()const;
+  int getAssignmentNumber() const;
   void markEdited();
   string getName()const;
+  
 };
 
 

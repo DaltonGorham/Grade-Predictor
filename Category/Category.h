@@ -20,13 +20,10 @@ public:
   void addAssignment(Assignment assignment);
   string getName()const;
   double getWeight()const;
-  vector<Assignment> getAssignments()const;
-  int getTotalCompleted();
+  vector<Assignment>& getAssignments();
+  int getTotalCompleted()const;
   void calculateTotalCompleted();
-  double calculateCurrentGrade()const;
-
-
-
+  double calculateCurrentGrade();
 };
 
 

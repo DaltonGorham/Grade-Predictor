@@ -23,15 +23,16 @@ double Category::getWeight() const {
     return weight;
 }
 
-vector<Assignment> Category::getAssignments()const{
+vector<Assignment>& Category::getAssignments(){
   return assignments;
 }
+
 
 void Category::addAssignment(Assignment assignment){
   assignments.push_back(assignment);
 }
 
-int Category::getTotalCompleted(){
+int Category::getTotalCompleted()const{
   return totalCompleted;
 }
 
@@ -48,7 +49,7 @@ void Category::calculateTotalCompleted(){
 }
 
 
-double Category::calculateCurrentGrade()const {
+double Category::calculateCurrentGrade() {
   double totalPointsPossible = 0;
   double totalPointsEarned = 0;
   cout << fixed << showpoint << setprecision(2);

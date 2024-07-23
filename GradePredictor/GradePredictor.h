@@ -8,9 +8,14 @@
 
 class GradePredictor{
 private:
+  int assignmentNumber;
 public:
   std::vector<Category> readFromFile(const string filename);
-  void printCategory(const vector<Category> &categories);
+  void printCategorySummary(vector<Category> &categories);
+  void printCategoryDetails(vector<Category>& categories, const string& name);
+  string getCategoryName(const vector<Category> & categories)const;
+  bool askForEdit();
+  void editAssignment(vector<Category> & categories);
 };
 
 
