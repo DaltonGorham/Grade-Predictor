@@ -10,6 +10,7 @@ private:
   double weight;
   vector<Assignment> assignments;
   int totalCompleted;
+  int totalNotCompleted;
   double totalPointsPossible = 0;
   double totalPointsEarned = 0;
 public:
@@ -22,6 +23,8 @@ public:
   double getWeight()const;
   vector<Assignment>& getAssignments();
   int getTotalCompleted()const;
+  int getTotalNotCompleted()const;
+  void calculateTotalNotCompleted();
   void calculateTotalCompleted();
   double calculateCurrentGrade();
 };

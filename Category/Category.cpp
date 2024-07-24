@@ -7,7 +7,7 @@ using namespace std;
 
 Category::Category(){}
 
-Category::Category(string n, double w) : name(n), weight(w), totalCompleted(0) {}
+Category::Category(string n, double w) : name(n), weight(w), totalCompleted(0), totalNotCompleted(0) {}
 
 
 
@@ -34,6 +34,20 @@ void Category::addAssignment(Assignment assignment){
 
 int Category::getTotalCompleted()const{
   return totalCompleted;
+}
+
+int Category::getTotalNotCompleted()const{
+  return totalNotCompleted;
+}
+
+void Category::calculateTotalNotCompleted(){
+  totalNotCompleted = 0;
+  const vector<Assignment> &assignments = getAssignments();
+  for (const Assignment& a : assignments){
+    if (!a.getCompleted()){
+      totalNotCompleted++;
+    }
+  }
 }
 
 

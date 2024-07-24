@@ -85,11 +85,14 @@ void GradePredictor::printCategorySummary(vector<Category> &categories){
   
   for (Category& c : categories){
     c.calculateTotalCompleted();
+    c.calculateTotalNotCompleted();
     cout << "Category Name: " << c.getName() << endl;
     cout << "Category Weight: " << c.getWeight() << endl;
     cout << "Assignments Completed: " << c.getTotalCompleted() << endl;
+    cout << "Assignments Remaining: " << c.getTotalNotCompleted() << endl;
+    cout << "Predicted Grade on Remaining Assignments: " << getPredictedGradeAverage() << endl;
     cout << "Current Grade: " << c.calculateCurrentGrade() << "%" << endl;
-    cout << "---------------------" << endl << endl;
+    cout << "-------------------------" << endl << endl;
   }
 }
 
@@ -104,7 +107,7 @@ void GradePredictor::printCategoryDetails(vector<Category>& categories, const st
       cout << "Points Possible: " << assignment.getPointsPossible() << endl;
       cout << "Points Earned: " << assignment.getPointsEarned() << endl;
       if (assignment.getCompleted()) cout << "Grade: " << assignment.getPointsEarned() / assignment.getPointsPossible() * 100.0 << "%" << endl; 
-      else cout << "Grade: " << "N/a" << endl;
+      else cout << "Grade: " << "N/a" <<  endl;
       cout << "Completed: " << (assignment.getCompleted() ? "Yes" : "No") << endl << endl; 
     }
     break;
@@ -139,22 +142,11 @@ string GradePredictor::getCategoryName(const vector<Category> & categories)const
 
 
 
-
-bool GradePredictor:: askForEdit(){
-  char answer;
-  cout << "Do you wish to edit anything? (Y/N) ";
-  cin >> answer;
-
-  return (answer == 'y' || answer == 'Y');
-}
-
-
-
 void GradePredictor:: editAssignment(vector<Category>& categories){
   int number;
   string editToken;
   char answer;
-  cout << "Enter the assignment number you wish to edit: ";
+  cout << "Enter the assignment number you wish to edit, or 0 to quit: ";
   cin >> number;
   cin.ignore();
   bool found = false;
@@ -217,7 +209,7 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
      
   }
   if (!found){
-    cout << "Assignment Number Not Valid." << endl;
+    cout << "Exiting Assignments..." << endl;
   }
 
 
@@ -230,4 +222,33 @@ void GradePredictor::clearScreen(){
 
 void GradePredictor::printEdited(Assignment& assignment){
  cout << "\t" << (assignment.getIfEdited() ? "**Edited**\n" : "\n");
+}
+
+double GradePredictor::calculateOverallGrade(vector<Category>& categories){
+  double totalWeightedGrade = 0.0;
+  double totalWeight = 0.0;
+
+  for (Category& c : categories){
+    double categoryWeight = c.getWeight();
+    double currentGrade = c.calculateCurrentGrade();
+
+    totalWeight += categoryWeight;
+    totalWeightedGrade += (currentGrade / 100) * categoryWeight;
+
+    if (totalWeight == 0){
+      return 0.0;
+    }
+
+    
+  }
+  return (totalWeightedGrade / totalWeight) * 100;
+}
+
+
+void GradePredictor::predictGradeAverage(vector<Category>& categories){
+
+}
+
+double GradePredictor::getPredictedGradeAverage()const{
+  return averageScore;
 }
