@@ -51,6 +51,11 @@ void Assignment::markEdited(){
   isEdited = true;
 }
 
+
+bool Assignment::getIfEdited()const{
+  return isEdited;
+}
+
 void Assignment::setAssignmentNumber(int num){
   assignmentNumber = num;
 }

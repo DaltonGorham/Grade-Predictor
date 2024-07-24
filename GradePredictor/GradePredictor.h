@@ -16,6 +16,8 @@ public:
   string getCategoryName(const vector<Category> & categories)const;
   bool askForEdit();
   void editAssignment(vector<Category> & categories);
+  void clearScreen();
+  void printEdited(Assignment& assignment);
 };
 
 

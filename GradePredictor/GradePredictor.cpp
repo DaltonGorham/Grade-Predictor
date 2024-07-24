@@ -94,12 +94,13 @@ void GradePredictor::printCategorySummary(vector<Category> &categories){
 }
 
 void GradePredictor::printCategoryDetails(vector<Category>& categories, const string& name){
+  clearScreen();
   cout << "User entered category name: [" << name << "]" << endl << endl;
   for (Category& c : categories){
       if (name == c.getName()){
       cout << "Assignments: " << endl;
       for (Assignment& assignment : c.getAssignments()){
-      cout << assignment.getName() << endl;
+      cout << assignment.getName(); printEdited(assignment);
       cout << "Points Possible: " << assignment.getPointsPossible() << endl;
       cout << "Points Earned: " << assignment.getPointsEarned() << endl;
       if (assignment.getCompleted()) cout << "Grade: " << assignment.getPointsEarned() / assignment.getPointsPossible() * 100.0 << "%" << endl; 
@@ -121,11 +122,6 @@ string GradePredictor::getCategoryName(const vector<Category> & categories)const
     cout << "Enter a category name to get a full report: ";
     getline(cin, name);
 
-    
-
-    
-
-
     for (const Category &c : categories){
       if (name == c.getName()){
         found = true;
@@ -140,8 +136,6 @@ string GradePredictor::getCategoryName(const vector<Category> & categories)const
   }
   return "Something went wrong.";
 }
-
-
 
 
 
@@ -168,7 +162,6 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
 
   for (Category& c : categories){
     for ( Assignment& a : c.getAssignments()){
-      
       if (number == a.getAssignmentNumber()){
         found = true;
         cout << "Now Editing Assignment: " << a.getName() << endl; 
@@ -182,27 +175,31 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
         getline(cin,editToken);
 
         if (editToken == "Name"){
-          cout << "Enter new name: ";
+          cout << "Enter new name with assignment number and colon in front: ";
           getline(cin, newName);
           a.setName(newName);
+          a.markEdited();
         }
         else if (editToken == "Points Possible"){
           cout << "Enter new Points Possible: ";
           cin >> newPointsPossible;
           a.setPointsPossible(newPointsPossible);
           cin.ignore();
+          a.markEdited();
         }
         else if (editToken == "Points Earned"){
           cout << "Enter new Points Earned: ";
           cin >> newPointsEarned;
           a.setPointsEarned(newPointsEarned);
           cin.ignore();
+          a.markEdited();
         }
         else if (editToken == "Completed"){
           cout << "Is this assignment Complete? (1 for Yes, 0 for No)";
           cin >> newCompleted;
           a.markCompleted(newCompleted);
           cin.ignore();
+          a.markEdited();
         }
         else {
           cout << "No Assignment Edited.";
@@ -212,9 +209,8 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
         cin.ignore();
         } while (answer != 'y' && answer != 'Y');
         
-        a.markEdited();
         cout << "Assignment Succefully Edited" << endl;
-        break;
+        return;
       }
     }
     if (found) break;
@@ -225,4 +221,13 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
   }
 
 
+}
+
+
+void GradePredictor::clearScreen(){
+  cout << "\033[2J\033[H";
+}
+
+void GradePredictor::printEdited(Assignment& assignment){
+ cout << "\t" << (assignment.getIfEdited() ? "**Edited**\n" : "\n");
 }

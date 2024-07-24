@@ -24,6 +24,7 @@ public:
   bool getCompleted()const;
   int getAssignmentNumber() const;
   void markEdited();
+  bool getIfEdited()const;
   string getName()const;
   
 };
