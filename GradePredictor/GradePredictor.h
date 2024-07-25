@@ -9,7 +9,6 @@
 class GradePredictor{
 private:
   int assignmentNumber;
-  double averageScore = 0;
 public:
   std::vector<Category> readFromFile(const string filename);
   void printCategorySummary(vector<Category> &categories);
@@ -19,8 +18,8 @@ public:
   void clearScreen();
   void printEdited(Assignment& assignment);
   double calculateOverallGrade(vector<Category>& categories);
-  void predictGradeAverage(vector<Category>& categories);
-  double getPredictedGradeAverage()const;
+  double predictGradeAverage(Category& c);
+  
 };
 
 

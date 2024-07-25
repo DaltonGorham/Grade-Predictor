@@ -1,8 +1,6 @@
 #include "./Category/Category.h"
 #include "./GradePredictor/GradePredictor.h"
 #include <vector>
-#include<ios>
-#include<limits> 
 using namespace std;
 void editAndUpdateAssignments(GradePredictor& predictor, vector<Category>& categories);
 void showCategoryDetails(GradePredictor& predictor, vector<Category>& categories, string& name);
@@ -19,7 +17,6 @@ int main(){
   string categoryName;
 
   do {
-      predictor.predictGradeAverage(categories);
       showCategorySummary(predictor, categories);
 
       categoryName = predictor.getCategoryName(categories);
@@ -28,7 +25,7 @@ int main(){
       do {
           editAndUpdateAssignments(predictor, categories);
           showCategoryDetails(predictor, categories, categoryName);
-          cout << "Do you want to edit another assignment? (Y/N): ";
+          cout << "Do you want to edit another assignment in this Category? (Y/N): ";
           cin >> choice;
           cin.ignore(); 
       } while (choice == 'y' || choice == 'Y');

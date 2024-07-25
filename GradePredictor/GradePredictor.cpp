@@ -2,14 +2,14 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include<ios>
-#include<limits> 
 using namespace std;
 
 
-/*If the line starts with "Category:", it indicates the start of a new category:
+/*
+  Reads in lines from a file called gradeBook: 
+  If the line starts with "Category:", it indicates the start of a new category:
   If the current category has assignments, it is added to the vector.
-  Extracts the category name and weight from the line.
+  Extracts the category name and weight from the line in file.
   Initializes a new Category object with the extracted name and weight.
   If the line is an assignment line:
   Extracts the assignment details (number, name, points possible, points earned, and completion status).
@@ -29,18 +29,20 @@ vector<Category> GradePredictor::readFromFile(const string filename){
   while (getline(gradeBook, line)){
 
     int firstComma = line.find(',');
-
+  // If the first 9 characters are Category:
     if (line.substr(0, 9) == "Category:"){
       if (category.getAssignments().size() != 0){
       categories.push_back(category);
       }
     
-
+    //Gets the name by going to the fist character after category:
+    //and getting the length by subtracting 10 to the first comma.
     string categoryName = line.substr(10, firstComma - 10);
     double categoryWeight = stod(line.substr(firstComma + 1));
 
     category = Category(categoryName, categoryWeight);
     }
+    //Else the the line does not start with Category: thus it is an assignment line
    else{
     int secondComma = line.find(',', firstComma + 1);
     int thirdComma = line.find(',', secondComma + 1);
@@ -57,6 +59,8 @@ vector<Category> GradePredictor::readFromFile(const string filename){
 
     bool completed = (line.substr(thirdComma + 1) == "1");
 
+    //Creates an assignment object to gather data for each category.
+
     Assignment dummy;
 
     dummy.setName(assignmentName);
@@ -66,11 +70,10 @@ vector<Category> GradePredictor::readFromFile(const string filename){
     dummy.setAssignmentNumber(number);
 
     
-
     category.addAssignment(dummy);
   } 
   }
-
+  //Pushes the new category object inside the vector of categories.
   if (category.getAssignments().size() != 0){
     categories.push_back(category);
   }
@@ -80,8 +83,11 @@ vector<Category> GradePredictor::readFromFile(const string filename){
 }
 
 
-void GradePredictor::printCategorySummary(vector<Category> &categories){
+/*
+Displays a summary of each category within the categories vector. 
+*/
 
+void GradePredictor::printCategorySummary(vector<Category> &categories){
   
   for (Category& c : categories){
     c.calculateTotalCompleted();
@@ -90,11 +96,19 @@ void GradePredictor::printCategorySummary(vector<Category> &categories){
     cout << "Category Weight: " << c.getWeight() << endl;
     cout << "Assignments Completed: " << c.getTotalCompleted() << endl;
     cout << "Assignments Remaining: " << c.getTotalNotCompleted() << endl;
-    cout << "Predicted Grade on Remaining Assignments: " << getPredictedGradeAverage() << endl;
+    cout << "Predicted Grade on Remaining Assignments: ";
+    if (predictGradeAverage(c) != 0.0){
+      cout << predictGradeAverage(c) << endl;
+    }
+    else cout << "N/a" << endl;
     cout << "Current Grade: " << c.calculateCurrentGrade() << "%" << endl;
-    cout << "-------------------------" << endl << endl;
+    cout << "-------------------------" << endl << endl << endl;
   }
 }
+
+/*
+Displays all of the assignments and their details. If a certain assignment has been edited within the category it will display a **edited** message beside the assignment name. 
+*/
 
 void GradePredictor::printCategoryDetails(vector<Category>& categories, const string& name){
   clearScreen();
@@ -115,7 +129,9 @@ void GradePredictor::printCategoryDetails(vector<Category>& categories, const st
     }
   }
 
-
+/*
+Gets the name of the category the user wants to get a full report on.
+*/
 string GradePredictor::getCategoryName(const vector<Category> & categories)const{
   string name;
   bool found = false;
@@ -140,7 +156,9 @@ string GradePredictor::getCategoryName(const vector<Category> & categories)const
   return "Something went wrong.";
 }
 
-
+/*
+Asks the user for the assignment number of the assignment they want to edit. If that number is an assignment number within that category it will then enter edit mode and begin asking what they want to edit, until they choose to quit. 
+*/
 
 void GradePredictor:: editAssignment(vector<Category>& categories){
   int number;
@@ -148,6 +166,7 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
   char answer;
   cout << "Enter the assignment number you wish to edit, or 0 to quit: ";
   cin >> number;
+
   cin.ignore();
   bool found = false;
 
@@ -208,7 +227,7 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
     if (found) break;
      
   }
-  if (!found){
+  if (!found ){
     cout << "Exiting Assignments..." << endl;
   }
 
@@ -223,6 +242,8 @@ void GradePredictor::clearScreen(){
 void GradePredictor::printEdited(Assignment& assignment){
  cout << "\t" << (assignment.getIfEdited() ? "**Edited**\n" : "\n");
 }
+
+
 
 double GradePredictor::calculateOverallGrade(vector<Category>& categories){
   double totalWeightedGrade = 0.0;
@@ -245,10 +266,31 @@ double GradePredictor::calculateOverallGrade(vector<Category>& categories){
 }
 
 
-void GradePredictor::predictGradeAverage(vector<Category>& categories){
+/*
+Returns the predicted grade for any assignments that are not completed.
+The grade is the average grade for all the completed assignments.
+ If all assignments are completed it will return 0.0.
+*/
 
+double GradePredictor::predictGradeAverage(Category& c){
+
+  int remaingPointsPossible = 0;
+  double currentAverage = c.calculateCurrentGrade();
+
+  for (Assignment& a : c.getAssignments()){
+    if (!a.getCompleted()){
+      remaingPointsPossible += a.getPointsPossible();
+    }
+  }
+
+  double predictedGrade = 0.0;
+
+  if (remaingPointsPossible > 0){
+    predictedGrade = currentAverage;
+  }
+
+  return predictedGrade;
 }
 
-double GradePredictor::getPredictedGradeAverage()const{
-  return averageScore;
-}
+
+
