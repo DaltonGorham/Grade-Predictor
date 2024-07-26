@@ -138,7 +138,7 @@ string GradePredictor::getCategoryName(const vector<Category> & categories)const
 
   while(!found){
     
-    cout << "Enter a category name to get a full report: ";
+    cout << "Enter a category name to get a full report or edit an assignment: ";
     getline(cin, name);
 
     for (const Category &c : categories){
@@ -181,7 +181,7 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
         bool newCompleted;
 
         do {
-        cout << "What do you want to edit? Name, Points Possible, Points Earned, or Completed ";
+        cout << "What do you want to edit? Name, Points Possible, Points Earned, or Completed: " << endl;
 
         getline(cin,editToken);
 
@@ -213,7 +213,7 @@ void GradePredictor:: editAssignment(vector<Category>& categories){
           a.markEdited();
         }
         else {
-          cout << "No Assignment Edited.";
+          cout << "Invalid Choice. No Assignment Edited.";
         }
         cout << "Are you done editing? (Y/N) ";
         cin >> answer;

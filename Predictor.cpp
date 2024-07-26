@@ -15,9 +15,11 @@ int main(){
 
   char choice;
   string categoryName;
+  double overallGrade = predictor.calculateOverallGrade(categories);
 
   do {
       showCategorySummary(predictor, categories);
+      cout << "Predicted Grade for the Class: " << overallGrade << "%" << endl;
 
       categoryName = predictor.getCategoryName(categories);
       showCategoryDetails(predictor, categories, categoryName);
@@ -32,7 +34,7 @@ int main(){
 
       showCategorySummary(predictor, categories);
 
-      double overallGrade = predictor.calculateOverallGrade(categories);
+     
       cout << "Predicted Grade for the Class: " << overallGrade << "%" << endl;
 
       cout << "Do you want to see a new category report? (Y/N): ";
