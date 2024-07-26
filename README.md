@@ -1,7 +1,7 @@
 # This is the module 3 lab Grade Predictor Assignment. 
 
 
-In this assignment I used a combination of string functions and file reading to retrieve each line within the provided txt file. Where you are given a summary and then a report on the category specified. After any edits are made it will then give you another category summary with the predicted overall class grade and a popup that shows if an assignment has been edited.
+In this assignment I used a combination of string functions and file reading to retrieve each line within the provided txt file. Where you are given a summary and then a report on the category specified. After any edits are made it will then give you another category summary with the predicted overall class grade and a popup that shows if an assignment has been edited. I have my own assignments and grades for this class in the txt file, and it accurately calculates the current and predicted grades. 
 
  You can manually enter categories in the file by typing in Category: followed by the name and weight:  
  ex. Homework,50
